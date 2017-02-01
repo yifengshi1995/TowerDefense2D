@@ -1,0 +1,6 @@
+5
+0 RedCrystal 0.5
+1 RedCrystal 0.5
+2 RedCrystal 0.5
+3 RedCrystal 2.0
+4 RedCrystal 0
