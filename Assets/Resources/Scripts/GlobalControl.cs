@@ -10,19 +10,4 @@ public class GlobalControl : MonoBehaviour {
         cp = ControlPanel.cpinstance;
     }
 
-    void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (cp.sprite != null)
-            {
-                Destroy(cp.sprite);
-                return;
-            }
-            else
-            {
-                cp.Deactivate();
-            }
-        }
-    }
 }

@@ -5,26 +5,16 @@ using UnityEngine.UI;
 public class ControlPanel : MonoBehaviour {
 
     public static ControlPanel cpinstance;
-
-    BuildManager buildManager;
+    private RangedPlace ranged = null;
+    private MeleePlace melee = null;
+    private BuildManager buildManager;
 
     public static Button[] towers;
     public bool activated;
-    public GameObject sprite = null;
 
     void Update()
     {
-        if(sprite != null)
-        {
-            Vector3 temp = sprite.transform.position;
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = 4;
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            temp.x = mousePosition.x;
-            temp.y = mousePosition.y;
-            temp.z = -6;
-            sprite.transform.position = temp;
-        }
+
     }
 
     void Awake()
@@ -36,8 +26,9 @@ public class ControlPanel : MonoBehaviour {
         cpinstance = this;
     }
 
-    public void ActivateRanged()
+    public void ActivateRanged(RangedPlace rp)
     {
+        ranged = rp;
         cpinstance.gameObject.SetActive(true);
         for (int i = 0; i < towers.Length; i++)
         {
@@ -47,8 +38,9 @@ public class ControlPanel : MonoBehaviour {
         activated = true;
     }
 
-    public void ActivateMelee()
+    public void ActivateMelee(MeleePlace mp)
     {
+        melee = mp;
         cpinstance.gameObject.SetActive(true);
         for (int i = 0; i < towers.Length; i++)
         {
@@ -61,6 +53,10 @@ public class ControlPanel : MonoBehaviour {
     public void Deactivate()
     {
         cpinstance.gameObject.SetActive(false);
+        for(int i = 0; i < towers.Length; i++)
+        {
+            towers[i].gameObject.SetActive(false);
+        }
         activated = false;
     }
 
@@ -82,20 +78,11 @@ public class ControlPanel : MonoBehaviour {
 
     public void SelectArrowTower()
     {
-        buildManager.setTurretToBuild(buildManager.ArrowTowerPrefab);
-        InstantiateSprite(buildManager.ArrowTowerPrefab);
+        ranged.BuildTower(buildManager.ArrowTowerPrefab);
     }
 
     public void SelectShielder()
     {
-        buildManager.setTurretToBuild(buildManager.ShielderPrefab);
-        InstantiateSprite(buildManager.ShielderPrefab);
-    }
-
-    void InstantiateSprite(GameObject prefab)
-    {
-        sprite = new GameObject("temp sprite");
-        SpriteRenderer r = sprite.AddComponent<SpriteRenderer>();
-        r.sprite = prefab.GetComponent<SpriteRenderer>().sprite;
+        melee.BuildTower(buildManager.ShielderPrefab);
     }
 }

@@ -16,7 +16,7 @@ public class BuildManager : MonoBehaviour {
     public GameObject ArrowTowerPrefab;
     public GameObject ShielderPrefab;
 
-    private GameObject turretToBuild;
+    private GameObject turretToBuild = null;
 
     public GameObject GetTurretToBuild()
     {
@@ -26,5 +26,10 @@ public class BuildManager : MonoBehaviour {
     public void setTurretToBuild(GameObject turret)
     {
         turretToBuild = turret;
+    }
+
+    public void clearTurretToBuild()
+    {
+        turretToBuild = null;
     }
 }

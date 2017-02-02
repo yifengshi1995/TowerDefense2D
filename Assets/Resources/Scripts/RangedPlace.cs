@@ -4,6 +4,8 @@ using System.Collections;
 public class RangedPlace : MonoBehaviour {
 
     ControlPanel cp;
+    private GameObject tower = null;
+
 
     void Start()
     {
@@ -12,30 +14,22 @@ public class RangedPlace : MonoBehaviour {
 
 	void OnMouseDown()
     {
-        if (!cp.activated)
-            cp.ActivateRanged();
-        if (cp.sprite != null)
+        if (tower == null)
+            cp.ActivateRanged(this);
+        if(tower != null)
         {
-            Instantiate(BuildManager.instance.GetTurretToBuild(), transform.position, transform.rotation);
-            Destroy(cp.sprite);
-            cp.Deactivate();
-            return;
+            RemoveTower();
         }
     }
 
-    void OnMouseOver()
+    public void BuildTower(GameObject t)
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            if(cp.sprite != null)
-            {
-                Destroy(cp.sprite);
-                return;
-            }
-            else
-            {
-                cp.Deactivate();
-            }
-        }
+        tower = (GameObject)Instantiate(t, transform.position, transform.rotation);
+        cp.Deactivate();
+    }
+
+    public void RemoveTower()
+    {
+        Destroy(tower);
     }
 }
