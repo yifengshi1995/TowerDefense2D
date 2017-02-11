@@ -5,9 +5,8 @@ public class Tower : MonoBehaviour {
     [Header("Attributes")]
     public int dmg;
     public float atkSpd;
-    public Transform endPoint;
+    private Transform endPoint;
     public float range;
-    public float explosionRadius;
     public GameObject bulletPrefab;
     
 
@@ -22,7 +21,7 @@ public class Tower : MonoBehaviour {
 
     void Start()
     {
-        
+        endPoint = GameObject.FindGameObjectWithTag("EndPoint").transform;
     }
 
     void Update()

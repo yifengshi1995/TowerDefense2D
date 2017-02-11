@@ -21,7 +21,14 @@ public class MeleeTower : MonoBehaviour {
         blockingEnemies = new List<Transform>();
     }
 
-	void Update () {
+    void OnEnable()
+    {
+        //Weather Effect
+        InvokeRepeating("Regeneration", 0f, 0.5f);
+    }
+
+	void Update () {  
+
         RestoreBlock();
         if (block < maxBlock)
             bc.enabled = true;
@@ -42,6 +49,15 @@ public class MeleeTower : MonoBehaviour {
             Destroy(gameObject);
 
         
+    }
+
+    void Regeneration()
+    {
+        if (WeatherSystem.weather == 1)
+            {
+                hp += 5;
+                Debug.Log(hp);
+            }
     }
 
     void RestoreBlock()

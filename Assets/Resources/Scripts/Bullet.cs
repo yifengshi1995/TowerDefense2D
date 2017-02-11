@@ -8,6 +8,9 @@ public class Bullet : MonoBehaviour {
     public float travelSpeed;
     public GameObject hitEffect;
 
+    [Header("Explosive Bullet Only")]
+    public float explosiveRadius;
+
 	void Update () {
         if (target == null)
         {
@@ -39,10 +42,46 @@ public class Bullet : MonoBehaviour {
         if(hitEffect != null)
         {
             GameObject effect = (GameObject)Instantiate(hitEffect, transform.position, transform.rotation);
-            Destroy(effect, 1f);
+            Destroy(effect, 0.3f);
         }
 
+        if(explosiveRadius > 0)
+        {
+            Explode();
+        }
+        else
+        {
+            Damage(target);
+        }
+        
+        
+    }
+
+    void Explode()
+    {
+        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, explosiveRadius);
+
+        foreach (Collider2D enemy in enemiesInRange)
+        {
+            if(enemy.tag == "Enemy")
+            {
+                Damage(enemy.transform);
+            }
+        }
+        
+        Destroy(gameObject);
+
+    }
+
+    void Damage(Transform target)
+    {
         target.gameObject.GetComponent<Enemy>().hp -= damage;
         Destroy(gameObject);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, explosiveRadius);
     }
 }
