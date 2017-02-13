@@ -7,30 +7,55 @@ public class Enemy : MonoBehaviour {
     public int hp;
     public int dmg;
     public float atkSpeed;
+    public bool grounded;
 
     private bool blocked;
     private Transform target;
     private int wavePointIndex = 0;
     private Transform attackTarget;
     private float coolDown = 0f;
+    private float moveSpeedTemp;
+
+    //Debuff Countdowns
+    private float slowCountdown = 0f;
+
+    //Debuff booleans
+    private bool isSlowed = false;
 
     void Start()
     {
         target = Waypoints.points[0];
+        moveSpeedTemp = moveSpeed;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if(attackTarget == null)
+        if (slowCountdown > 0)
+        {    
+            if (!isSlowed)
+            {
+                isSlowed = true;
+                moveSpeed = 0.5f * moveSpeedTemp;
+            }
+            slowCountdown -= Time.deltaTime;
+           
+        }
+        else
+        {
+            moveSpeed = moveSpeedTemp;
+            isSlowed = false;
+        }
+
+        if (attackTarget == null)
         {
             blocked = false;
         }
 
         Vector2 dir = target.position - transform.position;
-        if(!blocked)
+        if (!blocked)
             transform.Translate(dir.normalized * moveSpeed * Time.deltaTime);
 
-        if(coolDown <= 0)
+        if (coolDown <= 0)
         {
             Attack();
             coolDown = 1f / atkSpeed;
@@ -49,7 +74,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (hp <= 0)
-            Destroy(gameObject);  
+            Destroy(gameObject);
     }
 
     void Attack()
@@ -67,5 +92,11 @@ public class Enemy : MonoBehaviour {
             blocked = true;
             attackTarget = coll.transform;
         }
+    }
+
+    public void RefreshDebuffCountdown(string debuff, float cd)
+    {
+        if (debuff.Equals("Slow"))
+            slowCountdown = cd;
     }
 }

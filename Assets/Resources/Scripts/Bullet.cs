@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour {
     private int damage;
     public float travelSpeed;
     public GameObject hitEffect;
+    public bool isInstant;
+    public bool isSlow;
 
     [Header("Explosive Bullet Only")]
     public float explosiveRadius;
@@ -17,17 +19,23 @@ public class Bullet : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
+        if (!isInstant)
+        {
+            Vector2 dir = target.position - transform.position;
+            float distancePerFrame = Time.deltaTime * travelSpeed;
+            if (dir.magnitude <= distancePerFrame)
+            {
+                HitTarget();
+            }
 
-        Vector2 dir = target.position - transform.position;
-        float distancePerFrame = Time.deltaTime * travelSpeed;
-        if(dir.magnitude <= distancePerFrame)
+            transform.Translate(dir.normalized * distancePerFrame, Space.World);
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+        else
         {
             HitTarget();
         }
-
-        transform.Translate(dir.normalized * distancePerFrame, Space.World);
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
     }
 
@@ -42,7 +50,13 @@ public class Bullet : MonoBehaviour {
         if(hitEffect != null)
         {
             GameObject effect = (GameObject)Instantiate(hitEffect, transform.position, transform.rotation);
+            effect.GetComponent<HitEffect>().assignTarget(target);
             Destroy(effect, 0.3f);
+        }
+
+        if (isSlow)
+        {
+            target.gameObject.GetComponent<Enemy>().RefreshDebuffCountdown("Slow", 1f);
         }
 
         if(explosiveRadius > 0)

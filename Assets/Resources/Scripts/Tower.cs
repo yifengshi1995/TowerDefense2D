@@ -8,7 +8,7 @@ public class Tower : MonoBehaviour {
     private Transform endPoint;
     public float range;
     public GameObject bulletPrefab;
-    
+    public bool isInstant;
 
     private Transform target;
     private float cooldown = 0f;
@@ -40,8 +40,18 @@ public class Tower : MonoBehaviour {
 
     void Attack()
     {
-        GameObject bulletObject = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
-        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        Bullet bullet;
+        if (isInstant)
+        {
+            GameObject bulletObject = (GameObject)Instantiate(bulletPrefab, target.position, target.rotation);
+            bullet = bulletObject.GetComponent<Bullet>();
+        }
+        else
+        {
+            GameObject bulletObject = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
+            bullet = bulletObject.GetComponent<Bullet>();
+        }
+        
 
         if (bullet != null)
             bullet.Travel(target, dmg);
