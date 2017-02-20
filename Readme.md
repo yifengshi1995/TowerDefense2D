@@ -63,7 +63,7 @@ Blocking towers have life point, defense point, will be the target of enemy. Wil
 
 Currently only a few towers are determined to show up in the game:
 | Name | Type | Description |
-| ------ | ------ | ------- |
+| ------ | ------ | ------ |
 | Arrow Tower | Ranged | Rapidly shoot the arrow to one enemy. |
 | Explosion Tower | Ranged | Slowly shoot the fire ball to one target and cause ranged damage. |
 | Slow Tower | Ranged | Average attack speed to slow an enemy down 50% for few seconds. |
@@ -71,7 +71,7 @@ Currently only a few towers are determined to show up in the game:
 
 **Towers may be added in the future:**
 | Name | Type | Description |
-| ------ | ------ | ------- |
+| ------ | ------ | ------ |
 | Healing Tower | Ranged | Heal the blockers within its range. Average speed. |
 | Commander | Blocker | Raise the attack of all towers. Easy to be killed.  |
 | Generator | Ranged | Increase the speed of resources recovery. |
