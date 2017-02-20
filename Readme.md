@@ -62,6 +62,7 @@ Ranged towers do not have life point, and won't be attacked by enemy. Will attac
 Blocking towers have life point, defense point, will be the target of enemy. Will only attack the enemy on the ground and blocked by it (may vary based on different tower).
 
 Currently only a few towers are determined to show up in the game:
+
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | Arrow Tower | Ranged | Rapidly shoot the arrow to one enemy. |
@@ -70,6 +71,7 @@ Currently only a few towers are determined to show up in the game:
 | Shielder | Blocker| Block at most 2 enemies. Very Low damage, slow attack speed. |
 
 **Towers may be added in the future:**
+
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | Healing Tower | Ranged | Heal the blockers within its range. Average speed. |
