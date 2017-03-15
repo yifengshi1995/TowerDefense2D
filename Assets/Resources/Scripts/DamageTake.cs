@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class DamageTake : MonoBehaviour {
@@ -25,5 +24,10 @@ public class DamageTake : MonoBehaviour {
             gameover = true;
 
         }
+    }
+
+    void Start()
+    {
+        lifePoint.text = Player.life.ToString();
     }
 }
