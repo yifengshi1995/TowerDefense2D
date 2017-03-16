@@ -12,10 +12,14 @@ public class Player : MonoBehaviour {
     public int startA;
     public int startB;
 
+    public static bool panelOn;
+
     void Start()
     {
         life = startLife;
         costA = startA;
         costB = startB;
+        panelOn = false;
+        GameObject.Find("RangedBuilderUI").GetComponent<Image>().enabled = false;
     }
 }
