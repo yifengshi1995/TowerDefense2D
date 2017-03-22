@@ -4,21 +4,25 @@ using System.Linq;
 
 public class MeleeTower : MonoBehaviour {
 
-    public int hp;
+	[Header("Attributes")]
+    public int maxHp;
     public int dmg;
     public float atkSpd;
     public int maxBlock;
 
+	private int hp;
     private int block;
     private bool blocking = false;
-    private BoxCollider2D bc;
+    private BoxCollider2D boxCollider2D;
     private List<Transform> blockingEnemies;
-    private Transform target;
+    protected Transform target;
     private float cooldown = 0f;
 
     void Start () {
-        bc = GetComponent<BoxCollider2D>();
+		hp = maxHp;
+		boxCollider2D = GetComponent<BoxCollider2D>();
         blockingEnemies = new List<Transform>();
+		Debug.Log (hp);
     }
 
     void OnEnable()
@@ -31,9 +35,9 @@ public class MeleeTower : MonoBehaviour {
 
         RestoreBlock();
         if (block < maxBlock)
-            bc.enabled = true;
+			boxCollider2D.enabled = true;
         else
-            bc.enabled = false;
+			boxCollider2D.enabled = false;
 
         if(cooldown <= 0 && blocking)
         {
@@ -56,7 +60,8 @@ public class MeleeTower : MonoBehaviour {
         if (WeatherSystem.weather == 1)
             {
                 hp += 5;
-                Debug.Log(hp);
+				if (hp > maxHp)
+					hp = maxHp;
             }
     }
 
@@ -78,28 +83,21 @@ public class MeleeTower : MonoBehaviour {
         }
     }
 
-    void Attack()
+    protected virtual void Attack()
     {
-        target.gameObject.GetComponent<Enemy>().hp -= dmg;
+        
     }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
         if ((coll.gameObject.tag == "Enemy"))
         {
+			Debug.Log (blockingEnemies);
             block++;
             blocking = true;
             blockingEnemies.Add(coll.transform);
         }
     }
-
-//    void OnTriggerExit2D(Collider2D coll)
-//    {
-//        block--;
-//        blockingEnemies.Remove(coll.transform);
-//        if (block == 0)
-//            blocking = false;
-//    }
 
     void UpdateTarget()
     {
@@ -108,4 +106,8 @@ public class MeleeTower : MonoBehaviour {
             target = blockingEnemies.ElementAt(0);
         }
     }
+
+	public void TakeDamage(int dmg){
+		hp -= dmg;
+	}
 }

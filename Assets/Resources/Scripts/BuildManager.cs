@@ -7,7 +7,8 @@ public class BuildManager : MonoBehaviour {
     
     private GameObject towerToBuild = null;
     private string panelName;
-    private RangedPlace currentPlace;
+    private RangedPlace rangedPlace;
+	private MeleePlace meleePlace;
     
     void Start()
     {
@@ -30,18 +31,19 @@ public class BuildManager : MonoBehaviour {
 
     public void setRangedPlace(RangedPlace place)
     {
-        currentPlace = place;
+		rangedPlace = place;
     }
+
+	public void setMeleePlace(MeleePlace place)
+	{
+		meleePlace = place;
+	}
 
     public void LeftButton()
     {
         if(panelName == "RangedBuilderUI")
         {
             towerToBuild = Resources.Load("Prefabs/ArrowTower") as GameObject;
-            Instantiate(towerToBuild, transform.position, transform.rotation);
-            Player.panelOn = false;
-            currentPlace.tower = towerToBuild;
-            GetComponent<Image>().enabled = false;
         }
         else if(panelName == "MeleeBuilderUI")
         {
@@ -51,26 +53,32 @@ public class BuildManager : MonoBehaviour {
         {
 
         }
+
+		Instantiate(towerToBuild, transform.position, transform.rotation);
+		Player.panelOn = false;
+		currentPlace.tower = towerToBuild;
+		GetComponent<Image>().enabled = false;
     }
 
     public void UpButton()
     {
         if (panelName == "RangedBuilderUI")
         {
-            towerToBuild = Resources.Load("Prefabs/ExplosionTower") as GameObject;
-            Instantiate(towerToBuild, transform.position, transform.rotation);
-            Player.panelOn = false;
-            currentPlace.tower = towerToBuild;
-            GetComponent<Image>().enabled = false;
+            towerToBuild = Resources.Load("Prefabs/ExplosionTower") as GameObject;     
         }
         else if (panelName == "MeleeBuilderUI")
         {
-            //towerToBuild = GameObject.Find("Commander").GetComponent<GameObject>();
+			towerToBuild = Resources.Load("Prefabs/Shielder") as GameObject;
         }
         else if (panelName == "UpgraderUI")
         {
 
         }
+
+		Instantiate(towerToBuild, transform.position, transform.rotation);
+		Player.panelOn = false;
+		currentPlace.tower = towerToBuild;
+		GetComponent<Image>().enabled = false;
     }
 
     public void RightButton()

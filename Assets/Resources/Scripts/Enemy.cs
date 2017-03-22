@@ -81,7 +81,7 @@ public class Enemy : MonoBehaviour {
     {
         if (blocked)
         {
-            attackTarget.gameObject.GetComponent<MeleeTower>().hp -= dmg;
+			attackTarget.gameObject.GetComponent<MeleeTower>().TakeDamage(dmg);
         }
     }
 
