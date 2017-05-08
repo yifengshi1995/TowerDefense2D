@@ -19,6 +19,10 @@ public class BuildArea : MonoBehaviour
             RightClick();
         }
 
+        if (tower == null)
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -7);
+        else
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -5);
     }
 
     public void setTower(GameObject t)
@@ -28,7 +32,6 @@ public class BuildArea : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log(tower == null);
         if (tower == null && !Player.panelOn)
         {
             panel.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, panel.transform.position.z);
