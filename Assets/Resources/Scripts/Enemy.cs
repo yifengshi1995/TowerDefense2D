@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour {
     private int wavePointIndex = 0;
     private Transform attackTarget;
     private float coolDown = 0f;
-    private float moveSpeedTemp;
+    private float moveSpeedO;
 
     //Debuff Countdowns
     private float slowCountdown = 0f;
@@ -25,26 +25,12 @@ public class Enemy : MonoBehaviour {
     void Start()
     {
         target = Waypoints.points[0];
-        moveSpeedTemp = moveSpeed;
+        moveSpeedO = moveSpeed;
     }
 
     void FixedUpdate()
     {
-        if (slowCountdown > 0)
-        {    
-            if (!isSlowed)
-            {
-                isSlowed = true;
-                moveSpeed = 0.5f * moveSpeedTemp;
-            }
-            slowCountdown -= Time.deltaTime;
-           
-        }
-        else
-        {
-            moveSpeed = moveSpeedTemp;
-            isSlowed = false;
-        }
+        SlowEffect();
 
         if (attackTarget == null)
         {
@@ -98,5 +84,24 @@ public class Enemy : MonoBehaviour {
     {
         if (debuff.Equals("Slow"))
             slowCountdown = cd;
+    }
+
+    void SlowEffect()
+    {
+        if (slowCountdown > 0)
+        {
+            if (!isSlowed)
+            {
+                isSlowed = true;
+                moveSpeed = 0.5f * moveSpeedO;
+            }
+            slowCountdown -= Time.deltaTime;
+
+        }
+        else
+        {
+            moveSpeed = moveSpeedO;
+            isSlowed = false;
+        }
     }
 }

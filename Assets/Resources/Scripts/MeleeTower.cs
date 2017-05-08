@@ -20,19 +20,36 @@ public class MeleeTower : MonoBehaviour {
     protected Transform target;
     private float cooldown = 0f;
 
+    private int maxHpO;
+    private int dmgO;
+    private int defO;
+    private float atkSpdO;
+    private int maxBlockO;
+
+    private bool commanded = false;
+
     public void Start () {
 		hp = maxHp;
 		boxCollider2D = GetComponent<BoxCollider2D>();
         blockingEnemies = new List<Transform>();
+
+        maxHpO = maxHp;
+        dmgO = dmg;
+        defO = def;
+        atkSpdO = atkSpd;
+        maxBlockO = maxBlock;
+
     }
 
     void OnEnable()
     {
         //Weather Effect
         InvokeRepeating("Regeneration", 0f, 0.5f);
+
     }
 
-	void Update () {
+	void FixedUpdate () {
+        StatusChange();
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -65,6 +82,15 @@ public class MeleeTower : MonoBehaviour {
 				if (hp > maxHp)
 					hp = maxHp;
             }
+    }
+
+    void UnderCommand()
+    {
+        if (GameObject.Find("Commander(Clone)") != null)
+        {
+            dmg *= (int)1.2f;
+            def *= (int)1.2f;
+        }
     }
 
     void RestoreBlock()
@@ -138,5 +164,21 @@ public class MeleeTower : MonoBehaviour {
     void OnMouseDown()
     {
         StatusDisplay.instance.setTower(this.gameObject);
+    }
+
+    void StatusChange()
+    {
+        if(GameObject.Find("Commander(Clone)") != null && !commanded)
+        {
+            commanded = true;
+            dmg = (int)(dmg * 1.2f);
+            def = (int)(def * 1.2f);
+        }
+        if (GameObject.Find("Commander(Clone)") == null)
+        {
+            dmg = dmgO;
+            def = defO;
+            commanded = false;
+        }
     }
 }

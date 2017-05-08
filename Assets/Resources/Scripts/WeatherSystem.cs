@@ -41,7 +41,7 @@ public class WeatherSystem : MonoBehaviour {
         {
             if (weather == 0)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(10f);
                 weather = weathers[tempWeather % 4];
 
                 if (weather == 1)
@@ -55,7 +55,7 @@ public class WeatherSystem : MonoBehaviour {
             }
             else
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(20f);
                 tempWeather = weather;
                 weather = 0;
                 weatherText.text = "Earth";

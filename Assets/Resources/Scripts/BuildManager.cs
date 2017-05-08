@@ -33,7 +33,10 @@ public class BuildManager : MonoBehaviour {
         }
         else if(panelName == "MeleeBuilderUI")
         {
-
+            towerToBuild = Resources.Load("Prefabs/Commander") as GameObject;
+            buildArea.setTower(Instantiate(towerToBuild, new Vector3(transform.position.x, transform.position.y, -6), transform.rotation));
+            Player.panelOn = false;
+            GetComponent<Image>().enabled = false;
         }
         else if(panelName == "UpgraderUI")
         {
