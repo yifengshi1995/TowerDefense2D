@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class RangedPlace : MonoBehaviour {
-
-    public GameObject tower = null;
+public class BuildArea : MonoBehaviour
+{
+    public string panelName;
+    private GameObject tower = null;
     private Image panel;
 
     void Start()
     {
-        panel = GameObject.Find("RangedBuilderUI").GetComponent<Image>();
+        panel = GameObject.Find(panelName).GetComponent<Image>();
     }
 
     void Update()
@@ -17,14 +18,21 @@ public class RangedPlace : MonoBehaviour {
         {
             RightClick();
         }
+
     }
 
-	void OnMouseDown()
+    public void setTower(GameObject t)
     {
-        if(tower == null && !Player.panelOn)
+        tower = t;
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log(tower == null);
+        if (tower == null && !Player.panelOn)
         {
             panel.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, panel.transform.position.z);
-            panel.GetComponent<BuildManager>().setRangedPlace(this);
+            panel.GetComponent<BuildManager>().setBuildArea(this);
             panel.enabled = true;
             Player.panelOn = true;
         }

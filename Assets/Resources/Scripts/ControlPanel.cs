@@ -5,8 +5,6 @@ using UnityEngine.UI;
 public class ControlPanel : MonoBehaviour {
 
     public static ControlPanel cpinstance;
-    private RangedPlace ranged = null;
-    private MeleePlace melee = null;
 
     public static Button[] towers;
     public bool activated;

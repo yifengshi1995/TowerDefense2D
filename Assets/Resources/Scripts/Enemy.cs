@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if (coll.gameObject.tag == "MeleeTower")
         {
             blocked = true;
             attackTarget = coll.transform;

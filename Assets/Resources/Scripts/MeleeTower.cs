@@ -7,8 +7,10 @@ public class MeleeTower : MonoBehaviour {
 	[Header("Attributes")]
     public int maxHp;
     public int dmg;
+    public int def;
     public float atkSpd;
     public int maxBlock;
+    public string towerName;
 
 	private int hp;
     private int block;
@@ -18,11 +20,10 @@ public class MeleeTower : MonoBehaviour {
     protected Transform target;
     private float cooldown = 0f;
 
-    void Start () {
+    public void Start () {
 		hp = maxHp;
 		boxCollider2D = GetComponent<BoxCollider2D>();
         blockingEnemies = new List<Transform>();
-		Debug.Log (hp);
     }
 
     void OnEnable()
@@ -31,7 +32,12 @@ public class MeleeTower : MonoBehaviour {
         InvokeRepeating("Regeneration", 0f, 0.5f);
     }
 
-	void Update () {  
+	void Update () {
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            StatusDisplay.instance.setTower(null);
+        }
 
         RestoreBlock();
         if (block < maxBlock)
@@ -49,10 +55,6 @@ public class MeleeTower : MonoBehaviour {
         }
         cooldown -= Time.deltaTime;
 
-        if (hp <= 0)
-            Destroy(gameObject);
-
-        
     }
 
     void Regeneration()
@@ -92,7 +94,6 @@ public class MeleeTower : MonoBehaviour {
     {
         if ((coll.gameObject.tag == "Enemy"))
         {
-			Debug.Log (blockingEnemies);
             block++;
             blocking = true;
             blockingEnemies.Add(coll.transform);
@@ -107,7 +108,35 @@ public class MeleeTower : MonoBehaviour {
         }
     }
 
-	public void TakeDamage(int dmg){
-		hp -= dmg;
+	public void TakeDamage(int enemyDmg){
+
+        if (enemyDmg > def)
+        {
+            hp = hp - (enemyDmg - def);
+            if (hp <= 0)
+            {
+                hp = 0;
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            hp -= 1;
+            if (hp <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+		
 	}
+
+    public int getCurrentHp()
+    {
+        return hp;
+    }
+
+    void OnMouseDown()
+    {
+        StatusDisplay.instance.setTower(this.gameObject);
+    }
 }
